@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>JS workshop - Intro</title>
+
+    <link rel="stylesheet" href="/vendor.css">
+    <script type="text/javascript" src="/vendor.js"></script>
+    <script type="text/javascript" src="/bundle.js"></script>
+
+  <body>
+    <!-- Templates for live code blocks -->
+    <script id="code-wrapper" type="text/template" class="js-codemirror-template">
+      (function () {
+        document.getElementById("<%= targetId %>").innerHTML = "";
+        var logFunction = function () {
+            var args = Array.prototype.slice.call(arguments);
+            document.getElementById("<%= targetId %>").innerHTML +=
+              "<code>" + args.map(function (value) {
+                return JSON.stringify(value, null, 2);
+              }).join(" ") + "</code><br>";
+          },
+          console = {
+            log: logFunction,
+            info: logFunction,
+            table: logFunction,
+            error: logFunction,
+            warn: logFunction
+          };
+        <%= code %>
+      }());
+    </script>
+
+    <script id="error-template" type="text/template" class="js-codemirror-template">
+      <div class="alert alert-danger" role="alert">
+        <%- message %>
+      </div>
+    </script>
+
+    <div class="container-fluid">
+      <h2>Intro</h2>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">vars and var types</h4>
+        </div>
+        <div class="panel-body">
+          <div class="js-codemirror-content">
+<textarea class="js-codemirror-editor">
+var a;
+console.log(a);
+console.log(typeof a);
+
+a = 1;
+console.log(a);
+console.log(typeof a);
+
+a = "hello";
+console.log(a);
+console.log(typeof a);
+
+a = function() {};
+console.log(a);
+console.log(typeof a);
+
+a = {};
+console.log(a);
+console.log(typeof a);
+
+a = [];
+console.log(a);
+console.log(typeof a);
+</textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">objects</h4>
+        </div>
+        <div class="panel-body">
+          <div class="js-codemirror-content">
+<textarea class="js-codemirror-editor">
+// literal
+var foo = {};
+console.log(foo);
+console.log(typeof foo);
+
+// using Object class
+var bar = new Object();
+console.log(bar);
+console.log(typeof bar);
+
+// using a function
+function FooBar() {
+
+};
+var fooBar = new FooBar();
+console.log(fooBar);
+console.log(typeof fooBar);
+</textarea>
+          </div>
+
+          <div class="js-codemirror-content">
+<textarea class="js-codemirror-editor">
+// using literals
+var person = {
+  name: "foo",
+  lastName: "bar",
+  age: 123,
+  sayHello: function() {
+    console.log("Hello! My name is " + this.name + " " + this.lastName + " and I'm " + this.age + " years old");
+  }
+};
+console.log(person);
+console.log(typeof person);
+console.log(person.name);
+console.log(person["name"]);
+var nameProperty = "name";
+console.log(person[nameProperty]);
+person.sayHello();
+</textarea>
+          </div>
+
+          <div class="js-codemirror-content">
+<textarea class="js-codemirror-editor">
+// using functions
+function Person(name, lastName, age) {
+  this.name = name;
+  this.lastName = lastName;
+  this.age = age;
+  this.sayHello = function() {
+    console.log("Hello! My name is " + this.name + " " + this.lastName + " and I'm " + this.age + " years old");
+  }
+}
+var person = new Person("bar", "foo", 465);
+console.log(person);
+console.log(typeof person);
+console.log(person.name);
+person.sayHello();
+</textarea>
+          </div>
+
+          <div class="js-codemirror-content">
+<textarea class="js-codemirror-editor">
+// now is your turn
+
+// create an object in where, given two numbers,
+// we can perform the four basic mathematical operations
+// (adittion, subtraction, multiplication and divition)
+// implement each one in a different function
+
+// TODO:
+
+console.log(calculator.add());
+console.log(calculator.substract())
+console.log(calculator.multiply())
+console.log(calculator.divide())
+</textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">functions</h4>
+        </div>
+        <div class="panel-body">
+          <div class="js-codemirror-content">
+<textarea class="js-codemirror-editor">
+function foo() {
+  console.log("foo");
+}
+foo();
+
+var bar = function() {
+  console.log("bar");
+}
+bar();
+
+function fooBar(param) {
+  console.log(param);
+}
+fooBar("foo bar");
+
+var myFooBar = fooBar;
+myFooBar("bar foo");
+
+var myLog = console.log;
+myLog("123 456");
+</textarea>
+          </div>
+
+          <div class="js-codemirror-content">
+<textarea class="js-codemirror-editor">
+function myFunctionWithParams(param1, param2) {
+  console.log(param1);
+  console.log(param2);
+  console.log(arguments);
+}
+myFunctionWithParams();
+myFunctionWithParams("foo");
+myFunctionWithParams("foo", "bar");
+myFunctionWithParams("foo", "bar", 123);
+</textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">callback functions</h4>
+        </div>
+        <div class="panel-body">
+          <div class="js-codemirror-content">
+<textarea class="js-codemirror-editor">
+function foo(callback) {
+  console.log("foo");
+  if (typeof callback === "function") {
+    callback();
+  }
+}
+
+function bar() {
+  console.log("bar");
+}
+foo(bar);
+
+var foo = [123, 456];
+foo.forEach(function(value) {
+  console.log(value);
+});
+
+function fooBar(param) {
+  console.log(param);
+}
+fooBar("foo bar");
+foo.forEach(fooBar);
+</textarea>
+          </div>
+
+          <div class="js-codemirror-content">
+<textarea class="js-codemirror-editor">
+// now is your turn
+
+// define a function called callback which receives
+// an argument and prints it out
+function fooBar(callback) {
+  callback(1);
+  callback(2);
+  callback(3);
+}
+
+// TODO:
+</textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">== vs ===</h4>
+        </div>
+        <div class="panel-body">
+          <div class="js-codemirror-content">
+<textarea class="js-codemirror-editor">
+// The lenient or abstract equality operator == tries to convert values of different types, before comparing like strict equality.
+// The strict equality operator === only considers values equal that have the same type.
+
+console.log(3 == "3"); // true
+console.log(3 === "3"); // false.
+
+console.log(true == "1"); // true
+console.log(true === "1"); // false
+
+console.log(undefined == null); // true
+console.log(undefined === null); // false. Undefined and null are distinct types and are not interchangeable.
+
+console.log(true == "true"); // false. A string will not be converted to a boolean and vice versa.
+console.log(true === "true"); // false
+
+console.log("This is a string." == new String("This is a string.")); // true
+console.log("This is a string." === new String("This is a string.")); // false
+
+console.log(typeof "This is a string."); // string
+console.log(typeof new String("This is a string.")); //object
+
+var a = [];
+var b = [];
+var c = a;
+console.log(a == b); // false
+console.log(a === b); // false
+console.log(a == c); // true
+console.log(a === c); // true
+</textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">context</h4>
+        </div>
+        <div class="panel-body">
+          <div class="js-codemirror-content">
+<textarea class="js-codemirror-editor">
+console.log(123);
+
+var foo = console.log.bind(null, 456);
+foo();
+
+console.log.call(null, 789);
+
+console.log.apply(null, [0]);
+</textarea>
+          </div>
+
+          <div class="js-codemirror-content">
+<textarea class="js-codemirror-editor">
+this.foo = "foo";
+var fooBar = {
+  foo: "bar",
+  printFoo: function() {
+    console.log(this.foo);
+  }
+};
+fooBar.printFoo(); // bar
+
+var printFoo = fooBar.printFoo;
+printFoo(); // foo
+
+var boundPrintFoo = fooBar.printFoo.bind(fooBar);
+boundPrintFoo(); // bar
+</textarea>
+          </div>
+
+          <div class="js-codemirror-content">
+<textarea class="js-codemirror-editor">
+// now is your turn
+
+// fix sayHelloDeferred
+function Person(name, lastName, age) {
+  this.name = name;
+  this.lastName = lastName;
+  this.age = age;
+  this.sayHello = function() {
+    console.log("Hello! My name is " + this.name + " " + this.lastName + " and I'm " + this.age + " years old");
+  }
+  this.sayHelloDeferred = function() {
+    setTimeout(this.sayHello, 1);
+  }
+}
+var person = new Person("bar", "foo", 465);
+person.sayHello();
+person.sayHelloDeferred();
+</textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">prototype</h4>
+        </div>
+        <div class="panel-body">
+          <div class="js-codemirror-content">
+<textarea class="js-codemirror-editor">
+// strings
+String.prototype.someCoolFunction = function(times) {
+  return this.repeat(5);
+}
+
+console.log("foo bar ".someCoolFunction());
+
+// arrays
+Array.prototype.someCoolFunction = function(times) {
+  return this.toString().bold();
+}
+
+console.log([1, 2, 3].someCoolFunction());
+
+// objects
+function FooBar(fooBar) {
+  this.fooBar = fooBar;
+};
+
+FooBar.prototype.print = function() {
+  console.log(this.fooBar);
+}
+
+var fooBar = new FooBar("foo bar 123 456");
+fooBar.print();
+</textarea>
+          </div>
+
+          <div class="js-codemirror-content">
+<textarea class="js-codemirror-editor">
+// inheritance
+function Person() {
+  this.canTalk = true;
+  this.sayHello = function() {
+    if (this.canTalk) {
+      console.log("Hello, I'm " + this.name);
+    }
+  };
+};
+
+function Employee(name, title) {
+  this.name = name;
+  this.title = title;
+  this.sayHello = function() {
+    if (this.canTalk) {
+      console.log("Hello, I'm " + this.name + ", the " + this.title);
+    }
+  };
+};
+Employee.prototype = new Person();
+
+function Customer(name) {
+  this.name = name;
+};
+Customer.prototype = new Person();
+
+function Mime(name) {
+  this.name = name;
+  this.canTalk = false;
+};
+Mime.prototype = new Person();
+
+var bob = new Employee("Bob", "Builder");
+var joe = new Customer("Joe");
+var pat = new Employee("Pat", "Teacher");
+var mike = new Customer("Mike");
+var mime = new Mime("Mime");
+bob.sayHello();
+joe.sayHello();
+pat.sayHello();
+mike.sayHello();
+mime.sayHello();
+</textarea>
+          </div>
+
+          <div class="js-codemirror-content">
+<textarea class="js-codemirror-editor">
+// now is your turn
+
+// create an object called Teacher derived from
+// the Person class, and implement a method called
+// teach which receives a string called subject,
+// and prints out: [teacher's name] is now teaching [subject]
+
+function Person() {
+
+};
+Person.prototype.initialize = function(name, age) {
+  this.name = name;
+  this.age = age;
+}
+
+// TODO:
+
+var teacher = new Teacher();
+teacher.initialize("Adam", 45);
+teacher.teach("Inheritance");
+</textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">closure</h4>
+        </div>
+        <div class="panel-body">
+          <div class="js-codemirror-content">
+<textarea class="js-codemirror-editor">
+function sumator(x) {
+  return function(y) {
+    return x + y;
+  };
+}
+
+var add5 = sumator(5);
+var add10 = sumator(10);
+
+console.log(add5(2)); // 5 + 2
+console.log(add10(4)); // 10 + 4
+</textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">promise</h4>
+        </div>
+        <div class="panel-body">
+          <div class="js-codemirror-content">
+<textarea class="js-codemirror-editor">
+var promise = new Promise(function(resolve, reject) {
+  setTimeout(resolve, 1000);
+});
+
+console.log("before promise");
+promise.then(function() {
+  console.log("promise done");
+});
+console.log("after promise");
+
+var promise2 = new Promise(function(resolve, reject) {
+  setTimeout(function() {
+    reject(Error("promise error 2"));
+  }, 1000);
+});
+
+console.log("before promise2");
+promise2.catch(function(err) {
+  console.log(err.message);
+});
+console.log("after promise2");
+</textarea>
+          </div>
+
+          <div class="js-codemirror-content">
+<textarea class="js-codemirror-editor">
+// using callback
+function getEventsWithCallback(callback) {
+  request.get("/api/events").end(function(err, res) {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, res.body);
+    }
+  });
+}
+
+getEventsWithCallback(function(error, response) {
+  if (error) {
+    console.error("Failed!");
+    console.error(error);
+  } else {
+    console.log("Success!");
+    console.log(response[0].name);
+  }
+});
+
+// using promise
+function getEvents() {
+  return new Promise(function(resolve, reject) {
+    request.get("/api/events").end(function(err, res) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(res.body);
+      }
+    });
+  });
+}
+
+getEvents().then(function(response) {
+  console.log("Success!");
+  console.log(response[0].name);
+}, function(error) {
+  console.error("Failed!");
+  console.error(error);
+});
+</textarea>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>JS workshop - Marionette</title>
+
+    <link rel="stylesheet" href="/vendor.css">
+    <script type="text/javascript" src="/vendor.js"></script>
+    <script type="text/javascript" src="/bundle.js"></script>
+
+  <body>
+    <!-- Templates for live code blocks -->
+    <script id="code-wrapper" type="text/template" class="js-codemirror-template">
+      (function () {
+        document.getElementById("<%= targetId %>").innerHTML = "";
+        var logFunction = function () {
+            var args = Array.prototype.slice.call(arguments);
+            document.getElementById("<%= targetId %>").innerHTML +=
+              "<code>" + args.map(function (value) {
+                return JSON.stringify(value, null, 2);
+              }).join(" ") + "</code><br>";
+          },
+          console = {
+            log: logFunction,
+            info: logFunction,
+            table: logFunction,
+            error: logFunction,
+            warn: logFunction
+          };
+        <%= code %>
+      }());
+    </script>
+
+    <script id="error-template" type="text/template" class="js-codemirror-template">
+      <div class="alert alert-danger" role="alert">
+        <%- message %>
+      </div>
+    </script>
+
+    <div class="container-fluid">
+      <h2>Marionette</h2>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">xxx</h4>
+        </div>
+        <div class="panel-body">
+          <div class="js-codemirror-content">
+<textarea class="js-codemirror-editor">
+console.log("xxx");
+</textarea>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </body>
+</html>

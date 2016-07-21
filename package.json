@@ -1,0 +1,52 @@
+{
+  "name": "js-workshop",
+  "version": "0.0.0",
+  "description": "JS workshop about basic concepts, underscore, backbone and marionette",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "npm install && grunt",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "js",
+    "workshop",
+    "underscore",
+    "backbone",
+    "marionette"
+  ],
+  "author": "Gustavo Ingrassia <gustavo@eventbrite.com>",
+  "license": "MIT",
+  "dependencies": {
+    "backbone": "^1.3.3",
+    "backbone.marionette": "^2.4.7",
+    "jquery": "^3.1.0",
+    "json-server": "^0.8.16",
+    "moment": "^2.14.1",
+    "promise": "^7.1.1",
+    "superagent": "^2.0.0",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-bower-concat": "^1.0.0",
+    "grunt-bower-task": "^0.4.0",
+    "grunt-browserify": "^5.0.0",
+    "grunt-cli": "^1.2.0",
+    "grunt-contrib-clean": "^1.0.0",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-exec": "^1.0.0",
+    "grunt-open": "^0.2.3",
+    "grunt-parallel": "^0.5.1",
+    "load-grunt-tasks": "^3.5.0",
+    "time-grunt": "^1.3.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eb-gustavo/js-workshop.git"
+  },
+  "bugs": {
+    "url": "https://github.com/eb-gustavo/js-workshop/issues"
+  },
+  "homepage": "https://github.com/eb-gustavo/js-workshop#readme"
+}

@@ -1,0 +1,33 @@
+{
+  "name": "js-workshop",
+  "description": "JS workshop about basic concepts, underscore, backbone and marionette",
+  "main": "src/index.js",
+  "authors": [
+    "Gustavo Ingrassia <gustavo@eventbrite.com>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "js",
+    "workshop",
+    "underscore",
+    "backbone",
+    "marionette"
+  ],
+  "homepage": "https://github.com/eb-gustavo/js-workshop",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.6"
+  },
+  "overrides": {
+    "codemirror": {
+      "main": ["lib/codemirror.js", "mode/javascript/javascript.js", "lib/codemirror.css"]
+    }
+  }
+}
