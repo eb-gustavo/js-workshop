@@ -10,9 +10,7 @@ module.exports = function (grunt) {
 
     browserify: {
       app: {
-        src: [
-          'src/index.js'
-        ],
+        src: 'src/index.js',
         dest: 'dist/bundle.js'
       }
     },
@@ -47,7 +45,15 @@ module.exports = function (grunt) {
           relative: false
         },
         mainFiles: {
-          bootstrap: ['dist/css/bootstrap.css']
+          bootstrap: [
+            'dist/js/bootstrap.js',
+            'dist/css/bootstrap.css'
+          ],
+          codemirror: [
+            'lib/codemirror.js',
+            'mode/javascript/javascript.js',
+            'lib/codemirror.css'
+          ]
         }
       }
     },
@@ -57,17 +63,14 @@ module.exports = function (grunt) {
         expand: true,
         cwd: 'public',
         src: '**',
-        dest: 'dist/',
+        dest: 'dist/'
       },
       fonts: {
         files: [{
           src: [
-            'bower_components/bootstrap/dist/fonts/' +
-              'glyphicons-halflings-regular.ttf',
-            'bower_components/bootstrap/dist/fonts/' +
-              'glyphicons-halflings-regular.woff',
-            'bower_components/bootstrap/dist/fonts/' +
-              'glyphicons-halflings-regular.woff2'
+            'bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf',
+            'bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.woff',
+            'bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.woff2'
           ],
           dest: 'dist/fonts/',
           cwd: '.',
@@ -85,19 +88,34 @@ module.exports = function (grunt) {
 
     watch: {
       html: {
-        files: ['public/**/*.html'],
-        tasks: ['copy'],
+        files: 'public/**/*.html',
+        tasks: 'copy'
       },
+      js: {
+        files: 'src/**/*.js',
+        tasks: 'browserify'
+      }
     },
 
     exec: {
       json_server: {
-        cmd: './node_modules/.bin/json-server db.json --static ./dist --routes routes.json',
+        cmd: './node_modules/.bin/json-server db.json --static ./dist --routes routes.json'
       }
     },
 
     parallel: {
-      all_the_things: {
+      prod: {
+        tasks: [
+          {
+            grunt: true,
+            args: ['dist']
+          }, {
+            grunt: true,
+            args: ['exec']
+          }
+        ]
+      },
+      dev: {
         tasks: [
           {
             grunt: true,
@@ -114,7 +132,7 @@ module.exports = function (grunt) {
     }
   });
 
-  grunt.registerTask('default', ['parallel']);
-  grunt.registerTask('bower_dist', ['bower', 'bower_concat'])
-  grunt.registerTask('dist', ['clean', 'browserify', 'bower_dist', 'copy', 'open']);
+  grunt.registerTask('default', ['parallel:prod']);
+  grunt.registerTask('dev', ['parallel:dev']);
+  grunt.registerTask('dist', ['clean', 'browserify', 'bower', 'bower_concat', 'copy', 'open']);
 };

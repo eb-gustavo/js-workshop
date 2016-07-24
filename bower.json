@@ -25,14 +25,5 @@
   "dependencies": {
     "bootstrap": "^3.3.6",
     "codemirror": "^5.17.0"
-  },
-  "overrides": {
-    "codemirror": {
-      "main": [
-        "lib/codemirror.js",
-        "mode/javascript/javascript.js",
-        "lib/codemirror.css"
-      ]
-    }
   }
 }
