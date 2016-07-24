@@ -39,6 +39,16 @@
       </div>
     </script>
 
+    <script type="text/javascript">
+      request.get("/api/events").end(function(err, res) {
+        if (err) {
+          console.log(err);
+        } else {
+          window.api_events = res.body;
+        }
+      });
+    </script>
+
     <div class="container-fluid">
       <h2>Underscore</h2>
 
