@@ -16,7 +16,6 @@ function displayCodeExecution(templates, editor, targetId) {
     targetId: targetId
   });
 
-
   try {
     eval(parsedCode);
   } catch (e) {
@@ -26,14 +25,12 @@ function displayCodeExecution(templates, editor, targetId) {
   }
 }
 
-
 function buildCodemirrorPreviewContainer(textArea, index) {
   var newDiv = document.createElement("div");
   newDiv.id = "js-codemirror-preview-" + index;
   newDiv.className = "js-codemirror-preview panel panel-default panel-body";
   textArea.parentNode.insertBefore(newDiv, textArea.nextSibling);
 }
-
 
 function buildCodemirrorContainer(templates, textArea, index) {
   var
@@ -46,7 +43,6 @@ function buildCodemirrorContainer(templates, textArea, index) {
     }),
     targetId = "js-codemirror-preview-" + index;
 
-
   displayCodeExecution(templates, editor, targetId);
 
 
@@ -55,33 +51,27 @@ function buildCodemirrorContainer(templates, textArea, index) {
   }, 1000));
 }
 
-
 function buildCodemirrorExamples(templates) {
   var
     textAreaEditors = document.getElementsByClassName("js-codemirror-editor"),
     textArea;
 
-
   for (var i = 0; i < textAreaEditors.length; i++) {
     textArea = textAreaEditors[i];
-
 
     buildCodemirrorPreviewContainer(textArea, i);
     buildCodemirrorContainer(templates, textArea, i);
   }
 }
 
-
 function getTemplates() {
   var templates = document.getElementsByClassName("js-codemirror-template");
-
 
   return _.reduce(templates, function (result, template) {
     result[template.id] = _.template(template.innerHTML);
     return result;
   }, {});
 }
-
 
 window.onload = function() {
   buildCodemirrorExamples(getTemplates());
