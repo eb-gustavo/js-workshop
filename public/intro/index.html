@@ -302,7 +302,115 @@ console.log(a === c); // true
 
       <div class="panel panel-default">
         <div class="panel-heading">
+          <h4 class="panel-title">operators</h4>
+        </div>
+        <div class="panel-body">
+          <div class="js-codemirror-content">
+<textarea class="js-codemirror-editor">
+console.log(true && true); // true
+console.log(true && false); // false
+console.log(true || false); // true
+
+console.log(1 || true); // 1
+console.log(1 && true); // true
+
+console.log(0 || true); // true
+console.log(0 && true); // 0
+
+console.log(null || 1); // 1
+console.log(null && 1); // null
+console.log(null || 0); // 0
+console.log(null && 0); // null
+
+console.log(undefined || 1); // 1
+console.log(undefined && 1); // undefined
+console.log(undefined || 0); // 0
+console.log(undefined && 0); // undefined
+
+console.log(!1); // false
+console.log(!0); // true
+console.log(!NaN); // true
+console.log(!true); // false
+console.log(!false); // true
+console.log(!"foo"); // false
+console.log(!null); // true
+console.log(!undefined); // true
+console.log(!{}); // false
+console.log(![]); // false
+console.log(!""); // true
+console.log(!123); // false
+
+console.log(!!1); // true
+console.log(!!0); // false
+console.log(!!NaN); // false
+console.log(!!true); // true
+console.log(!!false); // false
+console.log(!!"foo"); // true
+console.log(!!null); // false
+console.log(!!undefined); // false
+console.log(!!{}); // true
+console.log(!![]); // true
+console.log(!!""); // false
+console.log(!!123); // true
+</textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
           <h4 class="panel-title">context</h4>
+        </div>
+        <div class="panel-body">
+          <div class="js-codemirror-content">
+<textarea class="js-codemirror-editor">
+this.foo = "foo";
+var fooBar = {
+  foo: "bar",
+  printFoo: function() {
+    console.log(this.foo);
+  }
+};
+fooBar.printFoo(); // bar
+
+var printFoo = fooBar.printFoo;
+printFoo(); // foo
+
+var boundPrintFoo = printFoo.bind(fooBar);
+boundPrintFoo(); // bar
+
+var boundPrintFoo = fooBar.printFoo.bind(fooBar);
+boundPrintFoo(); // bar
+</textarea>
+          </div>
+
+          <div class="js-codemirror-content">
+<textarea class="js-codemirror-editor">
+// now is your turn
+
+// fix sayHelloDeferred
+function Person(name, lastName, age) {
+  this.name = name;
+  this.lastName = lastName;
+  this.age = age;
+  this.sayHello = function() {
+    console.log("Hello! My name is " + this.name + " " + this.lastName + " and I'm " + this.age + " years old");
+  }
+  this.sayHelloDeferred = function() {
+    setTimeout(this.sayHello, 1);
+  }
+}
+var person = new Person("bar", "foo", 465);
+person.sayHello();
+person.sayHelloDeferred();
+</textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">bind vs call vs apply</h4>
         </div>
         <div class="panel-body">
           <div class="js-codemirror-content">
@@ -332,30 +440,7 @@ fooBar.printFoo(); // bar
 var printFoo = fooBar.printFoo;
 printFoo(); // foo
 
-var boundPrintFoo = fooBar.printFoo.bind(fooBar);
-boundPrintFoo(); // bar
-</textarea>
-          </div>
-
-          <div class="js-codemirror-content">
-<textarea class="js-codemirror-editor">
-// now is your turn
-
-// fix sayHelloDeferred
-function Person(name, lastName, age) {
-  this.name = name;
-  this.lastName = lastName;
-  this.age = age;
-  this.sayHello = function() {
-    console.log("Hello! My name is " + this.name + " " + this.lastName + " and I'm " + this.age + " years old");
-  }
-  this.sayHelloDeferred = function() {
-    setTimeout(this.sayHello, 1);
-  }
-}
-var person = new Person("bar", "foo", 465);
-person.sayHello();
-person.sayHelloDeferred();
+printFoo.call(fooBar); // bar
 </textarea>
           </div>
         </div>

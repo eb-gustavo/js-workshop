@@ -33,8 +33,7 @@ function buildCodemirrorPreviewContainer(textArea, index) {
 }
 
 function buildCodemirrorContainer(templates, textArea, index) {
-  var
-    editor = CodeMirror.fromTextArea(textArea, {
+  var editor = CodeMirror.fromTextArea(textArea, {
       lineNumbers: true,
       mode: {
         name: "javascript",
@@ -45,15 +44,13 @@ function buildCodemirrorContainer(templates, textArea, index) {
 
   displayCodeExecution(templates, editor, targetId);
 
-
   editor.on("change", _.debounce(function(editor) {
     displayCodeExecution(templates, editor, targetId);
   }, 1000));
 }
 
 function buildCodemirrorExamples(templates) {
-  var
-    textAreaEditors = document.getElementsByClassName("js-codemirror-editor"),
+  var textAreaEditors = document.getElementsByClassName("js-codemirror-editor"),
     textArea;
 
   for (var i = 0; i < textAreaEditors.length; i++) {
