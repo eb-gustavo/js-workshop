@@ -10,18 +10,22 @@ window.Marionette = Marionette;
 window.Promise = Promise;
 window.request = request;
 
-function displayCodeExecution(templates, editor, targetId) {
-  var parsedCode = templates["code-wrapper"]({
-    code: editor.getValue(),
-    targetId: targetId
-  });
+function displayCodeExecution(templates, editor, index) {
+  var previewTargetId = "js-codemirror-preview-" + index,
+    testResultTargetId = "js-codemirror-test-result-" + index,
+    parsedCode = templates["code-wrapper"]({
+      code: editor.getValue(),
+      previewTargetId: previewTargetId,
+      testResultTargetId: testResultTargetId
+    });
 
   try {
     eval(parsedCode);
   } catch (e) {
-    document.getElementById(targetId).innerHTML = templates["error-template"]({
+    document.getElementById(previewTargetId).innerHTML = templates["error-template"]({
       message: e.message
     });
+    document.getElementById(testResultTargetId).innerHTML = "";
   }
 }
 
@@ -32,6 +36,13 @@ function buildCodemirrorPreviewContainer(textArea, index) {
   textArea.parentNode.insertBefore(newDiv, textArea.nextSibling);
 }
 
+function buildCodemirrorTestResultsContainer(textArea, index) {
+  var newDiv = document.createElement("div");
+  newDiv.id = "js-codemirror-test-result-" + index;
+  newDiv.className = "js-codemirror-test-result panel panel-default panel-body";
+  textArea.parentNode.insertBefore(newDiv, textArea.nextSibling);
+}
+
 function buildCodemirrorContainer(templates, textArea, index) {
   var editor = CodeMirror.fromTextArea(textArea, {
       lineNumbers: true,
@@ -39,13 +50,12 @@ function buildCodemirrorContainer(templates, textArea, index) {
         name: "javascript",
         globalVars: true
       }
-    }),
-    targetId = "js-codemirror-preview-" + index;
+    });
 
-  displayCodeExecution(templates, editor, targetId);
+  displayCodeExecution(templates, editor, index);
 
   editor.on("change", _.debounce(function(editor) {
-    displayCodeExecution(templates, editor, targetId);
+    displayCodeExecution(templates, editor, index);
   }, 1000));
 }
 
@@ -56,6 +66,7 @@ function buildCodemirrorExamples(templates) {
   for (var i = 0; i < textAreaEditors.length; i++) {
     textArea = textAreaEditors[i];
 
+    buildCodemirrorTestResultsContainer(textArea, i);
     buildCodemirrorPreviewContainer(textArea, i);
     buildCodemirrorContainer(templates, textArea, i);
   }

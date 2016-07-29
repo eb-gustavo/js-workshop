@@ -4,21 +4,23 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>JS workshop - Marionette</title>
+    <title>JS workshop - Intro</title>
 
     <link rel="stylesheet" href="/vendor.css">
     <script type="text/javascript" src="/vendor.js"></script>
     <script type="text/javascript" src="/bundle.js"></script>
+  </head>
 
   <body>
     <!-- Templates for live code blocks -->
     <script id="code-wrapper" type="text/template" class="js-codemirror-template">
       (function () {
-        document.getElementById("<%= targetId %>").innerHTML = "";
-        var logFunction = function () {
+        document.getElementById("<%= previewTargetId %>").innerHTML = "";
+        document.getElementById("<%= testResultTargetId %>").innerHTML = "";
+        var logFunction = function() {
             var args = Array.prototype.slice.call(arguments);
-            document.getElementById("<%= targetId %>").innerHTML +=
-              "<code>" + args.map(function (value) {
+            document.getElementById("<%= previewTargetId %>").innerHTML +=
+              "<code>" + args.map(function(value) {
                 return JSON.stringify(value, null, 2);
               }).join(" ") + "</code><br>";
           },
@@ -28,7 +30,36 @@
             table: logFunction,
             error: logFunction,
             warn: logFunction
-          };
+          },
+          assertEqual = function(actual, expected, description) {
+            var message,
+              description = !!description ? description + ": ": "",
+              result = _.isEqual(actual, expected),
+              failResult =
+                "<div class='alert alert-danger' role='alert'>" +
+                  "<span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span>" +
+                  "<span class='sr-only'></span>",
+              successResult =
+                "<div class='alert alert-success' role='alert'>" +
+                  "<span class='glyphicon glyphicon-ok' aria-hidden='true'></span>" +
+                  "<span class='sr-only'></span>";
+
+            if (!!result) {
+              message =
+                successResult + " " +
+                description + " " +
+                JSON.stringify(actual, null, 2) + " is equal to " +
+                JSON.stringify(expected, null, 2);
+            } else {
+              message =
+                failResult + " " +
+                description + " " +
+                JSON.stringify(actual, null, 2) + " is not equal to " +
+                JSON.stringify(expected, null, 2);
+            }
+            document.getElementById("<%= testResultTargetId %>").innerHTML +=
+              message + "<div>";
+          }
         <%= code %>
       }());
     </script>

@@ -4,21 +4,23 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>JS workshop - Underscore</title>
+    <title>JS workshop - Intro</title>
 
     <link rel="stylesheet" href="/vendor.css">
     <script type="text/javascript" src="/vendor.js"></script>
     <script type="text/javascript" src="/bundle.js"></script>
+  </head>
 
   <body>
     <!-- Templates for live code blocks -->
     <script id="code-wrapper" type="text/template" class="js-codemirror-template">
       (function () {
-        document.getElementById("<%= targetId %>").innerHTML = "";
-        var logFunction = function () {
+        document.getElementById("<%= previewTargetId %>").innerHTML = "";
+        document.getElementById("<%= testResultTargetId %>").innerHTML = "";
+        var logFunction = function() {
             var args = Array.prototype.slice.call(arguments);
-            document.getElementById("<%= targetId %>").innerHTML +=
-              "<code>" + args.map(function (value) {
+            document.getElementById("<%= previewTargetId %>").innerHTML +=
+              "<code>" + args.map(function(value) {
                 return JSON.stringify(value, null, 2);
               }).join(" ") + "</code><br>";
           },
@@ -28,7 +30,36 @@
             table: logFunction,
             error: logFunction,
             warn: logFunction
-          };
+          },
+          assertEqual = function(actual, expected, description) {
+            var message,
+              description = !!description ? description + ": ": "",
+              result = _.isEqual(actual, expected),
+              failResult =
+                "<div class='alert alert-danger' role='alert'>" +
+                  "<span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span>" +
+                  "<span class='sr-only'></span>",
+              successResult =
+                "<div class='alert alert-success' role='alert'>" +
+                  "<span class='glyphicon glyphicon-ok' aria-hidden='true'></span>" +
+                  "<span class='sr-only'></span>";
+
+            if (!!result) {
+              message =
+                successResult + " " +
+                description + " " +
+                JSON.stringify(actual, null, 2) + " is equal to " +
+                JSON.stringify(expected, null, 2);
+            } else {
+              message =
+                failResult + " " +
+                description + " " +
+                JSON.stringify(actual, null, 2) + " is not equal to " +
+                JSON.stringify(expected, null, 2);
+            }
+            document.getElementById("<%= testResultTargetId %>").innerHTML +=
+              message + "<div>";
+          }
         <%= code %>
       }());
     </script>
@@ -54,143 +85,12 @@
 
       <div class="panel panel-default">
         <div class="panel-heading">
-          <h4 class="panel-title">objects</h4>
+          <h4 class="panel-title">xxx</h4>
         </div>
         <div class="panel-body">
           <div class="js-codemirror-content">
 <textarea class="js-codemirror-editor">
-console.log(_.keys({one: 1, two: 2, three: 3})); // ["one", "two", "three"]
-
-console.log(_.values({one: 1, two: 2, three: 3})); // [1, 2, 3]
-
-console.log(_.pick({name: 'moe', age: 50, userid: 'moe1'}, 'name', 'age')); // {name: 'moe', age: 50}
-console.log(_.pick({name: 'moe', age: 50, userid: 'moe1'}, function(value, key, object) {
-  return _.isNumber(value);
-})); // {age: 50}
-
-console.log(_.omit({name: 'moe', age: 50, userid: 'moe1'}, 'userid')); // {name: 'moe', age: 50}
-console.log(_.omit({name: 'moe', age: 50, userid: 'moe1'}, function(value, key, object) {
-  return _.isNumber(value);
-})); // {name: 'moe', userid: 'moe1'}
-
-console.log(_.extend({name: 'moe'}, {age: 50})); // {name: 'moe', age: 50}
-console.log(_.extend({name: 'moe', age: 50}, {age: 30})); // {name: 'moe', age: 30}
-
-console.log(_.defaults({name: 'moe', age: 50}, {age: 30})); // {name: 'moe', age: 50}
-
-console.log(_.has({a: 1, b: 2, c: 3}, "b")); // true
-console.log(_.has({a: 1, b: 2, c: 3}, "d")); // false
-
-console.log(_.isEmpty([1, 2, 3])); // false
-console.log(_.isEmpty([])); // true
-console.log(_.isEmpty({a: 1, b: 2, c: 3})); // false
-console.log(_.isEmpty({})); // true
-
-console.log(_.isArray([])); // true
-console.log(_.isObject({})); // true
-console.log(_.isFunction(function () {})); // true
-console.log(_.isString("moe")); // true
-console.log(_.isNumber(8.4 * 5)); // true
-console.log(_.isBoolean(false)); // true
-console.log(_.isNaN(NaN)); // true
-console.log(_.isNull(null)); // true
-console.log(_.isUndefined(undefined)); // true
-</textarea>
-          </div>
-        </div>
-
-        <div class="panel-heading">
-          <h4 class="panel-title">arrays</h4>
-        </div>
-        <div class="panel-body">
-          <div class="js-codemirror-content">
-<textarea class="js-codemirror-editor">
-console.log(_.first([5, 4, 3, 2, 1])); // 5
-
-console.log(_.initial([5, 4, 3, 2, 1])); // [5, 4, 3, 2]
-
-console.log(_.last([5, 4, 3, 2, 1])); // 1
-
-console.log(_.rest([5, 4, 3, 2, 1])); // [4, 3, 2, 1]
-
-console.log(_.compact([0, 1, false, 2, '', 3])); // [1, 2, 3]
-
-console.log(_.flatten([1, [2], [3, [[4]]]])); // [1, 2, 3, 4];
-
-console.log(_.without([1, 2, 1, 0, 3, 1, 4], 0, 1)); // [2, 3, 4]
-
-console.log(_.union([1, 2, 3], [101, 2, 1, 10], [2, 1])); // [1, 2, 3, 101, 10]
-
-console.log(_.intersection([1, 2, 3], [101, 2, 1, 10], [2, 1])); // [1, 2]
-
-console.log(_.difference([1, 2, 3, 4, 5], [5, 2, 10])); // [1, 3, 4]
-
-console.log(_.uniq([1, 2, 1, 4, 1, 3])); // [1, 2, 4, 3]
-
-console.log(_.zip(['moe', 'larry', 'curly'], [30, 40, 50], [true, false, false])); // [["moe", 30, true], ["larry", 40, false], ["curly", 50, false]]
-
-console.log(_.range(10)); // [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-console.log(_.range(1, 11)); // [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-console.log(_.range(0, 30, 5)); // [0, 5, 10, 15, 20, 25]
-console.log(_.range(0, -10, -1)); // [0, -1, -2, -3, -4, -5, -6, -7, -8, -9]
-console.log(_.range(0)); // []
-</textarea>
-          </div>
-        </div>
-
-        <div class="panel-heading">
-          <h4 class="panel-title">collections</h4>
-        </div>
-        <div class="panel-body">
-          <div class="js-codemirror-content">
-<textarea class="js-codemirror-editor">
-_.each([1, 2, 3], console.log);
-_.each({one: 1, two: 2, three: 3}, console.log);
-
-console.log(_.map([1, 2, 3], function(num){ return num * 3; })); // [3, 6, 9]
-console.log(_.map({one: 1, two: 2, three: 3}, function(num, key){ return num * 3; })); // [3, 6, 9]
-console.log(_.map([[1, 2], [3, 4]], _.first)); // [1, 3]
-
-console.log(_.reduce([1, 2, 3], function(memo, num){ return memo + num; }, 0)); // 6
-
-console.log(_.find([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; })); // 2
-
-console.log(_.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; })); //  [2, 4, 6]
-
-console.log(_.where([{name: "a", age: 1}, {name: "b", age: 2}], {name: "a"})); // [{"name": "a", "age": 1}]
-
-console.log(_.reject([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; })); // [1, 3, 5]
-
-console.log(_.every([2, 4, 5], function(num) { return num % 2 == 0; })); // false
-
-console.log(_.some([null, 0, 'yes', false])); // true
-
-console.log(_.contains([1, 2, 3], 3)); // true
-
-var stooges = [{name: 'moe', age: 40}, {name: 'larry', age: 50}, {name: 'curly', age: 60}];
-console.log(_.pluck(stooges, 'name')); // ["moe", "larry", "curly"]
-</textarea>
-          </div>
-        </div>
-
-        <div class="panel-heading">
-          <h4 class="panel-title">functions</h4>
-        </div>
-        <div class="panel-body">
-          <div class="js-codemirror-content">
-<textarea class="js-codemirror-editor">
-// TODO
-</textarea>
-          </div>
-        </div>
-
-        <div class="panel-heading">
-          <h4 class="panel-title">playground</h4>
-        </div>
-        <div class="panel-body">
-          <div class="js-codemirror-content">
-<textarea class="js-codemirror-editor">
-
+console.log("xxx");
 </textarea>
           </div>
         </div>
