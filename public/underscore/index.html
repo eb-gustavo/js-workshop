@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>JS workshop - Intro</title>
+    <title>JS workshop - Underscore</title>
 
     <link rel="stylesheet" href="/vendor.css">
     <script type="text/javascript" src="/vendor.js"></script>
@@ -33,7 +33,7 @@
           },
           assertEqual = function(actual, expected, description) {
             var message,
-              description = !!description ? description + ": ": "",
+              description = !!description ? "<i>" + description + ":</i> ": "",
               result = _.isEqual(actual, expected),
               failResult =
                 "<div class='alert alert-danger' role='alert'>" +
@@ -45,17 +45,13 @@
                   "<span class='sr-only'></span>";
 
             if (!!result) {
-              message =
-                successResult + " " +
-                description + " " +
-                JSON.stringify(actual, null, 2) + " is equal to " +
-                JSON.stringify(expected, null, 2);
+              message = successResult + " " + description + " <b>pass!</b>";
             } else {
               message =
                 failResult + " " +
-                description + " " +
-                JSON.stringify(actual, null, 2) + " is not equal to " +
-                JSON.stringify(expected, null, 2);
+                description + " <b>" +
+                JSON.stringify(actual, null, 2) + "</b> is not equal to <b>" +
+                JSON.stringify(expected, null, 2) + "</b>";
             }
             document.getElementById("<%= testResultTargetId %>").innerHTML +=
               message + "<div>";
@@ -70,27 +66,220 @@
       </div>
     </script>
 
-    <script type="text/javascript">
-      request.get("/api/events").end(function(err, res) {
-        if (err) {
-          console.log(err);
-        } else {
-          window.api_events = res.body;
-        }
-      });
-    </script>
-
     <div class="container-fluid">
       <h2>Underscore</h2>
 
       <div class="panel panel-default">
         <div class="panel-heading">
-          <h4 class="panel-title">xxx</h4>
+          <h4 class="panel-title">objects</h4>
         </div>
         <div class="panel-body">
           <div class="js-codemirror-content">
 <textarea class="js-codemirror-editor">
-console.log("xxx");
+/** _.has */
+////////// DO NOT MODIFY THIS ////////// START
+function usingHas(data) {
+  var result = false;
+////////// DO NOT MODIFY THIS ////////// END
+
+  if (data && data.c && data.c.b) {
+////////// DO NOT MODIFY THIS ////////// START
+    result = true;
+  }
+  assertEqual(result, true, "using _.has");
+}
+usingHas({a: 3, b: 2, c: {a: 1, b: 0}});
+usingHas();
+////////// DO NOT MODIFY THIS ////////// END
+
+/** _.keys */
+var result;
+
+////////// DO NOT MODIFY THIS ////////// START
+assertEqual(result, [
+  "name", "description", "id", "url", "start", "end", "created", "changed",
+  "capacity", "status", "currency", "listed", "shareable", "online_event",
+  "tx_time_limit", "hide_start_date", "hide_end_date", "locale", "is_locked",
+  "privacy_setting", "is_series", "is_series_parent", "is_reserved_seating",
+  "logo_id", "organizer_id", "venue_id", "category_id", "subcategory_id",
+  "format_id", "resource_uri", "logo"
+], "using _.keys");
+////////// DO NOT MODIFY THIS ////////// END
+
+/** _.pick */
+var result;
+
+////////// DO NOT MODIFY THIS ////////// START
+assertEqual(result, {
+  status: "live",
+  currency: "USD",
+  listed: true,
+  locale: "en_US",
+}, "using _.pick");
+////////// DO NOT MODIFY THIS ////////// END
+
+/** _.omit */
+var result;
+
+////////// DO NOT MODIFY THIS ////////// START
+assertEqual(result, {
+  status: "live",
+  currency: "USD",
+  listed: true,
+  locale: "en_US",
+}, "using _.omit");
+////////// DO NOT MODIFY THIS ////////// END
+
+/** _.extend */
+////////// DO NOT MODIFY THIS ////////// START
+function usingExtend(data) {
+////////// DO NOT MODIFY THIS ////////// END
+
+
+
+////////// DO NOT MODIFY THIS ////////// START
+  assertEqual(
+    _.pick(data, ["status", "currency", "listed", "locale"]),
+    {status: "started", currency: "GBP", listed: false, locale: "en_GB"},
+    "using _.extend"
+  );
+}
+var data = _.clone(api_event);
+usingExtend(data);
+usingExtend();
+assertEqual(data, api_event, "using _.extend");
+////////// DO NOT MODIFY THIS ////////// END
+
+/** _.defaults */
+////////// DO NOT MODIFY THIS ////////// START
+function usingDefaults(data) {
+////////// DO NOT MODIFY THIS ////////// END
+
+
+
+////////// DO NOT MODIFY THIS ////////// START
+  assertEqual(
+    _.pick(data, ["status", "currency", "listed", "locale"]),
+    {status: "started", currency: "GBP", listed: false, locale: "en_GB"},
+    "using _.defaults"
+  );
+}
+var data = _.clone(api_event);
+usingDefaults(data);
+usingDefaults();
+assertEqual(data, api_event, "using _.defaults");
+////////// DO NOT MODIFY THIS ////////// END
+</textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">collections</h4>
+        </div>
+        <div class="panel-body">
+          <div class="js-codemirror-content">
+<textarea class="js-codemirror-editor">
+/** using _.each convert all event ids into private ids where the status is 'started' */
+var result;
+
+////////// DO NOT MODIFY THIS ////////// START
+assertEqual(result, [
+  7957983, 18245707, 26158143, 22409703
+], "using _.each");
+////////// DO NOT MODIFY THIS ////////// END
+
+/** using _.map convert all event ids into private ids where the status is 'started' */
+var result;
+
+////////// DO NOT MODIFY THIS ////////// START
+assertEqual(result, [
+  7957983, 18245707, 26158143, 22409703
+], "using _.map");
+////////// DO NOT MODIFY THIS ////////// END
+
+/** using _.reduce convert all event ids into private ids where the event status is 'started' */
+var result;
+
+////////// DO NOT MODIFY THIS ////////// START
+assertEqual(result, [
+  7957983, 18245707, 26158143, 22409703
+], "using _.reduce");
+////////// DO NOT MODIFY THIS ////////// END
+
+/** using _.find get the first event with locale equal to en_GB */
+var result = {};
+
+////////// DO NOT MODIFY THIS ////////// START
+assertEqual(result.id, 19012091678, "using _.find");
+////////// DO NOT MODIFY THIS ////////// END
+
+/** using _.filter convert all event ids into private ids where locale === en_GB and currency === GBP */
+var result;
+
+////////// DO NOT MODIFY THIS ////////// START
+assertEqual(result, [
+  18955226, 9825782, 18878507, 23622909, 18984619, 20796101, 18505013, 13030031,
+  19040982, 19891569, 18063791, 17887017
+], "using _.filter");
+////////// DO NOT MODIFY THIS ////////// END
+
+/** using _.where convert all event ids into private ids where locale === en_GB and currency === GBP */
+var result;
+
+////////// DO NOT MODIFY THIS ////////// START
+assertEqual(result, [
+  18955226, 9825782, 18878507, 23622909, 18984619, 20796101, 18505013, 13030031,
+  19040982, 19891569, 18063791, 17887017
+], "using _.where");
+////////// DO NOT MODIFY THIS ////////// END
+
+/** using _.every verify that all events where locale === en_GB and currency === GBP are live */
+var result;
+
+////////// DO NOT MODIFY THIS ////////// START
+assertEqual(result, true, "using _.every");
+////////// DO NOT MODIFY THIS ////////// END
+
+/** using _.some verify that at least one event where locale === en_GB and currency === GBP have capacity for more than 200000 */
+var result;
+
+////////// DO NOT MODIFY THIS ////////// START
+assertEqual(result, true, "using _.some");
+////////// DO NOT MODIFY THIS ////////// END
+
+/** using _.pluck get all the different currencies (without repetition) */
+var result;
+
+////////// DO NOT MODIFY THIS ////////// START
+assertEqual(result, ["USD", "GBP", "CAD", "EUR", "AUD", "MYR"], "using _.pluck");
+////////// DO NOT MODIFY THIS ////////// END
+
+/** using _.countBy get all currencies and group them according to the number of occurrences */
+var result;
+
+////////// DO NOT MODIFY THIS ////////// START
+assertEqual(result, {"1": "AUD", "2": "MYR", "4": "CAD", "5": "EUR", "13": "GBP", "25": "USD"}, "using _.countBy");
+////////// DO NOT MODIFY THIS ////////// END
+</textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">chain</h4>
+        </div>
+        <div class="panel-body">
+          <div class="js-codemirror-content">
+<textarea class="js-codemirror-editor">
+/** using _.chain sum all event private ids where locale === en_GB and currency === GBP and the id is even */
+var result;
+
+////////// DO NOT MODIFY THIS ////////// START
+assertEqual(result, 47821990, "using _.chain");
+////////// DO NOT MODIFY THIS ////////// END
 </textarea>
           </div>
         </div>
