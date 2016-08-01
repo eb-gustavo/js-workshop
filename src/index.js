@@ -46,6 +46,7 @@ function buildCodemirrorTestResultsContainer(textArea, index) {
 function buildCodemirrorContainer(templates, textArea, index) {
   var editor = CodeMirror.fromTextArea(textArea, {
       lineNumbers: true,
+      tabSize: 2,
       mode: {
         name: "javascript",
         globalVars: true
@@ -82,5 +83,13 @@ function getTemplates() {
 }
 
 window.onload = function() {
-  buildCodemirrorExamples(getTemplates());
+  request.get("/api/events").end(function(err, res) {
+    if (err) {
+      console.log(err);
+    } else {
+      window.api_events = res.body;
+      window.api_event = res.body[0];
+      buildCodemirrorExamples(getTemplates());
+    }
+  });
 }
