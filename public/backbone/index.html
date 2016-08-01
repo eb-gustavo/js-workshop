@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>JS workshop - Intro</title>
+    <title>JS workshop - Backbone</title>
 
     <link rel="stylesheet" href="/vendor.css">
     <script type="text/javascript" src="/vendor.js"></script>
@@ -33,7 +33,7 @@
           },
           assertEqual = function(actual, expected, description) {
             var message,
-              description = !!description ? description + ": ": "",
+              description = !!description ? "<i>" + description + ":</i> ": "",
               result = _.isEqual(actual, expected),
               failResult =
                 "<div class='alert alert-danger' role='alert'>" +
@@ -45,17 +45,13 @@
                   "<span class='sr-only'></span>";
 
             if (!!result) {
-              message =
-                successResult + " " +
-                description + " " +
-                JSON.stringify(actual, null, 2) + " is equal to " +
-                JSON.stringify(expected, null, 2);
+              message = successResult + " " + description + " <b>pass!</b>";
             } else {
               message =
                 failResult + " " +
-                description + " " +
-                JSON.stringify(actual, null, 2) + " is not equal to " +
-                JSON.stringify(expected, null, 2);
+                description + " <b>" +
+                JSON.stringify(actual, null, 2) + "</b> is not equal to <b>" +
+                JSON.stringify(expected, null, 2) + "</b>";
             }
             document.getElementById("<%= testResultTargetId %>").innerHTML +=
               message + "<div>";
