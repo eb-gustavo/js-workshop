@@ -63,7 +63,12 @@ module.exports = function (grunt) {
         expand: true,
         cwd: 'public',
         src: '**',
-        dest: 'dist/'
+        dest: 'dist/',
+        options: {
+          process: function(content) {
+            return content;
+          }
+        }
       },
       fonts: {
         files: [{
