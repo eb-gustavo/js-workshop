@@ -83,7 +83,7 @@ function getTemplates() {
 }
 
 window.onload = function() {
-  request.get("/api/events").end(function(err, res) {
+  request.get("/api/events?limit=50").end(function(err, res) {
     if (err) {
       console.log(err);
     } else {
