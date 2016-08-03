@@ -82,7 +82,12 @@ function usingHas(data) {
   var result = false;
 ////////// DO NOT MODIFY THIS ////////// END
 
+<!-- devcode: development -->
+  if (!data || (data && data.c && _.has(data.c, "b"))) {
+<!-- endcode -->
+<!-- devcode: production -->
   if (data && data.c && data.c.b) {
+<!-- endcode -->
 ////////// DO NOT MODIFY THIS ////////// START
     result = true;
   }
@@ -93,8 +98,11 @@ usingHas();
 ////////// DO NOT MODIFY THIS ////////// END
 
 /** _.keys */
-var result;
+var result = {};
 
+<!-- devcode: development -->
+result = _.keys(api_event);
+<!-- endcode -->
 ////////// DO NOT MODIFY THIS ////////// START
 assertEqual(result, [
   "name", "description", "id", "url", "start", "end", "created", "changed",
@@ -107,8 +115,11 @@ assertEqual(result, [
 ////////// DO NOT MODIFY THIS ////////// END
 
 /** _.pick */
-var result;
+var result = {};
 
+<!-- devcode: development -->
+result = _.pick(api_event, ["status", "currency", "listed", "locale"]);
+<!-- endcode -->
 ////////// DO NOT MODIFY THIS ////////// START
 assertEqual(result, {
   status: "live",
@@ -119,8 +130,18 @@ assertEqual(result, {
 ////////// DO NOT MODIFY THIS ////////// END
 
 /** _.omit */
-var result;
+var result = {};
 
+<!-- devcode: development -->
+result = _.omit(api_event, [
+  "name", "description", "id", "url", "start", "end", "created", "changed",
+  "capacity", "shareable", "online_event", "tx_time_limit", "hide_start_date",
+  "hide_end_date", "is_locked", "privacy_setting", "is_series",
+  "is_series_parent", "is_reserved_seating", "logo_id", "organizer_id",
+  "venue_id", "category_id", "subcategory_id", "format_id", "resource_uri",
+  "logo"
+]);
+<!-- endcode -->
 ////////// DO NOT MODIFY THIS ////////// START
 assertEqual(result, {
   status: "live",
@@ -137,6 +158,14 @@ function usingExtend(data) {
 
 
 
+<!-- devcode: development -->
+  data = _.extend({}, data, {
+    status: "started",
+    currency: "GBP",
+    listed: false,
+    locale: "en_GB"
+  });
+<!-- endcode -->
 ////////// DO NOT MODIFY THIS ////////// START
   assertEqual(
     _.pick(data, ["status", "currency", "listed", "locale"]),
@@ -157,6 +186,14 @@ function usingDefaults(data) {
 
 
 
+<!-- devcode: development -->
+  data = _.defaults({
+    status: "started",
+    currency: "GBP",
+    listed: false,
+    locale: "en_GB"
+  }, data);
+<!-- endcode -->
 ////////// DO NOT MODIFY THIS ////////// START
   assertEqual(
     _.pick(data, ["status", "currency", "listed", "locale"]),
@@ -182,8 +219,16 @@ assertEqual(data, api_event, "using _.defaults");
           <div class="js-codemirror-content">
 <textarea class="js-codemirror-editor">
 /** using _.each convert all event ids into private ids where the status is 'started' */
-var result;
+var result = {};
 
+<!-- devcode: development -->
+result = [];
+_.each(api_events, function(e) {
+  if (e.status === "started") {
+    result.push(e.id / 1003);
+  }
+});
+<!-- endcode -->
 ////////// DO NOT MODIFY THIS ////////// START
 assertEqual(result, [
   7957983, 18245707, 26158143, 22409703
@@ -191,8 +236,16 @@ assertEqual(result, [
 ////////// DO NOT MODIFY THIS ////////// END
 
 /** using _.map convert all event ids into private ids where the status is 'started' */
-var result;
+var result = {};
 
+<!-- devcode: development -->
+result = _.map(api_events, function(e) {
+  if (e.status === "started") {
+    return e.id / 1003;
+  }
+});
+result = _.compact(result);
+<!-- endcode -->
 ////////// DO NOT MODIFY THIS ////////// START
 assertEqual(result, [
   7957983, 18245707, 26158143, 22409703
@@ -200,8 +253,16 @@ assertEqual(result, [
 ////////// DO NOT MODIFY THIS ////////// END
 
 /** using _.reduce convert all event ids into private ids where the event status is 'started' */
-var result;
+var result = {};
 
+<!-- devcode: development -->
+result = _.reduce(api_events, function(memo, e) {
+  if (e.status === "started") {
+    memo.push(e.id / 1003);
+  }
+  return memo;
+}, []);
+<!-- endcode -->
 ////////// DO NOT MODIFY THIS ////////// START
 assertEqual(result, [
   7957983, 18245707, 26158143, 22409703
@@ -211,13 +272,26 @@ assertEqual(result, [
 /** using _.find get the first event with locale equal to en_GB */
 var result = {};
 
+<!-- devcode: development -->
+result = _.find(api_events, function(e) {
+  return e.locale === "en_GB";
+});
+<!-- endcode -->
 ////////// DO NOT MODIFY THIS ////////// START
 assertEqual(result.id, 19012091678, "using _.find");
 ////////// DO NOT MODIFY THIS ////////// END
 
 /** using _.filter convert all event ids into private ids where locale === en_GB and currency === GBP */
-var result;
+var result = {};
 
+<!-- devcode: development -->
+result = _.filter(api_events, function(e) {
+  return e.locale === "en_GB" && e.currency === "GBP";
+});
+result = _.map(result, function(e) {
+  return e.id / 1003;
+});
+<!-- endcode -->
 ////////// DO NOT MODIFY THIS ////////// START
 assertEqual(result, [
   18955226, 9825782, 18878507, 23622909, 18984619, 20796101, 18505013, 13030031,
@@ -226,8 +300,14 @@ assertEqual(result, [
 ////////// DO NOT MODIFY THIS ////////// END
 
 /** using _.where convert all event ids into private ids where locale === en_GB and currency === GBP */
-var result;
+var result = {};
 
+<!-- devcode: development -->
+result = _.where(api_events, {locale: "en_GB", currency: "GBP"});
+result = _.map(result, function(e) {
+  return e.id / 1003;
+});
+<!-- endcode -->
 ////////// DO NOT MODIFY THIS ////////// START
 assertEqual(result, [
   18955226, 9825782, 18878507, 23622909, 18984619, 20796101, 18505013, 13030031,
@@ -236,29 +316,50 @@ assertEqual(result, [
 ////////// DO NOT MODIFY THIS ////////// END
 
 /** using _.every verify that all events where locale === en_GB and currency === GBP are live */
-var result;
+var result = {};
 
+<!-- devcode: development -->
+result = _.where(api_events, {locale: "en_GB", currency: "GBP"});
+result = _.every(result, function(e) {
+  return e.status === "live";
+});
+<!-- endcode -->
 ////////// DO NOT MODIFY THIS ////////// START
 assertEqual(result, true, "using _.every");
 ////////// DO NOT MODIFY THIS ////////// END
 
-/** using _.some verify that at least one event where locale === en_GB and currency === GBP have capacity for more than 200000 */
-var result;
+/** using _.some verify that at least one event where locale === en_GB and currency === GBP have capacity greater than 200000 */
+var result = {};
 
+<!-- devcode: development -->
+result = _.where(api_events, {locale: "en_GB", currency: "GBP"});
+result = _.some(result, function(e) {
+  return e.capacity > 200000;
+});
+<!-- endcode -->
 ////////// DO NOT MODIFY THIS ////////// START
 assertEqual(result, true, "using _.some");
 ////////// DO NOT MODIFY THIS ////////// END
 
 /** using _.pluck get all the different currencies (without repetition) */
-var result;
+var result = {};
 
+<!-- devcode: development -->
+result = _.pluck(api_events, "currency");
+result = _.uniq(result);
+<!-- endcode -->
 ////////// DO NOT MODIFY THIS ////////// START
 assertEqual(result, ["USD", "GBP", "CAD", "EUR", "AUD", "MYR"], "using _.pluck");
 ////////// DO NOT MODIFY THIS ////////// END
 
 /** using _.countBy get all currencies and group them according to the number of occurrences */
-var result;
+var result = {};
 
+<!-- devcode: development -->
+result = _.pluck(api_events, "currency");
+result = _.countBy(result, _.identity);
+result = _.invert(result);
+<!-- endcode -->
 ////////// DO NOT MODIFY THIS ////////// START
 assertEqual(result, {"1": "AUD", "2": "MYR", "4": "CAD", "5": "EUR", "13": "GBP", "25": "USD"}, "using _.countBy");
 ////////// DO NOT MODIFY THIS ////////// END
@@ -275,8 +376,23 @@ assertEqual(result, {"1": "AUD", "2": "MYR", "4": "CAD", "5": "EUR", "13": "GBP"
           <div class="js-codemirror-content">
 <textarea class="js-codemirror-editor">
 /** using _.chain sum all event private ids where locale === en_GB and currency === GBP and the id is even */
-var result;
+var result = {};
 
+<!-- devcode: development -->
+result = _.chain(api_events)
+  .where({locale: "en_GB", currency: "GBP"})
+  .pluck("id")
+  .filter(function(num) {
+    return num % 2 == 0;
+  })
+  .map(function(num) {
+    return num / 1003;
+  })
+  .reduce(function(memo, num) {
+    return memo + num;
+  }, 0)
+  .value();
+<!-- endcode -->
 ////////// DO NOT MODIFY THIS ////////// START
 assertEqual(result, 47821990, "using _.chain");
 ////////// DO NOT MODIFY THIS ////////// END

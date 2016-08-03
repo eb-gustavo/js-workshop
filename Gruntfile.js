@@ -63,12 +63,7 @@ module.exports = function (grunt) {
         expand: true,
         cwd: 'public',
         src: '**',
-        dest: 'dist/',
-        options: {
-          process: function(content) {
-            return content;
-          }
-        }
+        dest: 'dist/'
       },
       fonts: {
         files: [{
@@ -85,6 +80,31 @@ module.exports = function (grunt) {
       },
     },
 
+    devcode: {
+      options: {
+        html: true,
+        js: false,
+        css: false,
+        clean: true,
+        block: {
+          open: 'devcode',
+          close: 'endcode'
+        },
+        source: 'dist/',
+        dest: 'dist/'
+      },
+      prod: {
+        options: {
+          env: 'production'
+        }
+      },
+      dev: {
+        options: {
+          env: 'development'
+        }
+      }
+    },
+
     open: {
       app: {
         path: 'http://localhost:3000/'
@@ -94,7 +114,7 @@ module.exports = function (grunt) {
     watch: {
       html: {
         files: 'public/**/*.html',
-        tasks: 'copy'
+        tasks: 'copy_dev'
       },
       js: {
         files: 'src/**/*.js',
@@ -104,40 +124,34 @@ module.exports = function (grunt) {
 
     exec: {
       json_server: {
-        cmd: './node_modules/.bin/json-server db.json --static ./dist --routes routes.json'
+        cmd: 'node server.js'
       }
     },
 
     parallel: {
       prod: {
-        tasks: [
-          {
-            grunt: true,
-            args: ['dist']
-          }, {
-            grunt: true,
-            args: ['exec']
-          }
-        ]
+        options: {
+          grunt: true
+        },
+        tasks: ['dist_prod', 'exec']
       },
       dev: {
-        tasks: [
-          {
-            grunt: true,
-            args: ['dist']
-          }, {
-            grunt: true,
-            args: ['watch']
-          }, {
-            grunt: true,
-            args: ['exec']
-          }
-        ]
+        options: {
+          grunt: true
+        },
+        tasks: ['dist_dev', 'watch', 'exec']
       }
     }
   });
 
   grunt.registerTask('default', ['parallel:prod']);
   grunt.registerTask('dev', ['parallel:dev']);
-  grunt.registerTask('dist', ['clean', 'browserify', 'bower', 'bower_concat', 'copy', 'open']);
+  grunt.registerTask('copy_prod', ['copy', 'devcode:prod']);
+  grunt.registerTask('copy_dev', ['copy', 'devcode:dev']);
+  grunt.registerTask('dist_prod', [
+    'clean', 'browserify', 'bower', 'bower_concat', 'copy_prod', 'open'
+  ]);
+  grunt.registerTask('dist_dev', [
+    'clean', 'browserify', 'bower', 'bower_concat', 'copy_dev', 'open'
+  ]);
 };
