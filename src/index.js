@@ -87,8 +87,8 @@ window.onload = function() {
     if (err) {
       console.log(err);
     } else {
-      window.api_events = res.body;
-      window.api_event = res.body[0];
+      window.api_events = res.body.events;
+      window.api_event = res.body.events[0];
       buildCodemirrorExamples(getTemplates());
     }
   });
