@@ -133,14 +133,9 @@ assertEqual(result, {
 var result = {};
 
 <!-- devcode: development -->
-result = _.omit(api_event, [
-  "name", "description", "id", "url", "start", "end", "created", "changed",
-  "capacity", "shareable", "online_event", "tx_time_limit", "hide_start_date",
-  "hide_end_date", "is_locked", "privacy_setting", "is_series",
-  "is_series_parent", "is_reserved_seating", "logo_id", "organizer_id",
-  "venue_id", "category_id", "subcategory_id", "format_id", "resource_uri",
-  "logo"
-]);
+result = _.keys(api_event);
+result = _.difference(result, ["status", "currency", "listed", "locale"])
+result = _.omit(api_event, result);
 <!-- endcode -->
 ////////// DO NOT MODIFY THIS ////////// START
 assertEqual(result, {
