@@ -67,16 +67,314 @@
     </script>
 
     <div class="container-fluid">
-      <h2>Backbone</h2>
+      <h2><a href="http://backbonejs.org/" target="_blank">Backbone</a></h2>
+
+      <h4><a href="http://backbonejs.org/#Model" target="_blank">Model</a></h4>
+      <blockquote>
+        <small>
+          A Model manages an internal table of data attributes, and triggers "change" events when any of its data is modified. Models handle syncing data with a persistence layer — usually a REST API with a backing database. Design your models as the atomic reusable objects containing all of the helpful functions for manipulating their particular bit of data. Models should be able to be passed around throughout your app, and used anywhere that bit of data is needed.
+        </small>
+      </blockquote>
 
       <div class="panel panel-default">
         <div class="panel-heading">
-          <h4 class="panel-title">xxx</h4>
+          <h4 class="panel-title">usage</h4>
         </div>
         <div class="panel-body">
           <div class="js-codemirror-content">
 <textarea class="js-codemirror-editor">
-console.log("xxx");
+var MyModel = Backbone.Model.extend({});
+
+var myModel = new MyModel();
+
+// one attribute
+myModel.set("foo", "FOO");
+console.log(myModel.get("foo"));
+
+myModel.set("foo", "foo");
+console.log(myModel.get("foo"));
+
+// multiple attributes
+myModel.set({
+  "bar": "BAR",
+  "baz": "BAZ"
+});
+console.log(myModel.get("bar"));
+console.log(myModel.get("baz"));
+</textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">defaults</h4>
+        </div>
+        <div class="panel-body">
+          <div class="js-codemirror-content">
+<textarea class="js-codemirror-editor">
+var MyModel = Backbone.Model.extend({
+  defaults: {
+    "foo": "FOO",
+    "bar": "BAR",
+    "baz": "BAZ"
+  }
+});
+
+var myModel = new MyModel();
+console.log(myModel.get("foo"));
+console.log(myModel.get("bar"));
+console.log(myModel.get("baz"));
+</textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">initialize</h4>
+        </div>
+        <div class="panel-body">
+          <div class="js-codemirror-content">
+<textarea class="js-codemirror-editor">
+var MyModel = Backbone.Model.extend({});
+
+var myModel = new MyModel({
+  "foo": "FOO",
+  "bar": "BAR",
+  "baz": "BAZ"
+});
+console.log(myModel.get("foo"));
+console.log(myModel.get("bar"));
+console.log(myModel.get("baz"));
+</textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">built-in attributes</h4>
+        </div>
+        <div class="panel-body">
+          <div class="js-codemirror-content">
+<textarea class="js-codemirror-editor">
+var MyModel = Backbone.Model.extend({});
+
+var myModel = new MyModel({
+  "foo": "FOO",
+  "bar": "BAR",
+  "baz": "BAZ"
+});
+
+// has
+console.log(myModel.has("foo"));
+
+// unset
+myModel.unset("baz");
+console.log(myModel.has("baz"));
+
+myModel.set("bar", null);
+console.log(myModel.has("bar"));
+
+// attributes
+console.log(myModel.attributes);
+
+// toJSON
+console.log(myModel.toJSON());
+
+// clear
+myModel.clear();
+console.log(myModel.get("foo"));
+</textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">events</h4>
+        </div>
+        <div class="panel-body">
+          <div class="js-codemirror-content">
+<textarea class="js-codemirror-editor">
+var MyModel = Backbone.Model.extend({});
+
+var myModel = new MyModel();
+
+// on - change - when a model's attributes have changed
+myModel.on("change", function(model) {
+  console.log("the model has changed and the changes are", model.changed);
+});
+
+// on - change:[attribute] - when a specific attribute has been updated
+myModel.on("change:foo", function(model, value) {
+  console.log("the attribute 'foo' has changed to", value);
+});
+
+// on - change several attributes
+myModel.on("change:bar change:baz", function(model, value) {
+  console.log("the attribute 'bar' or 'baz' has changed to", value);
+});
+
+myModel.set("foo", "FOO");
+myModel.set("bar", "BAR");
+myModel.set("baz", "BAZ");
+myModel.set({
+  "foo": 123,
+  "bar": 456,
+  "baz": 789
+});
+
+// trigger
+// myModel.trigger("change", {asd: 123})
+
+// once
+// myModel.once("myCustomEventUsingOnce", console.log.bind(console, "myCustomEventUsingOnce"));
+// myModel.trigger("myCustomEventUsingOnce");
+// myModel.trigger("myCustomEventUsingOnce");
+
+// off
+// myModel.on("myCustomEventUsingOff", console.log.bind(console, "myCustomEventUsingOff"));
+// myModel.trigger("myCustomEventUsingOff");
+// myModel.off("myCustomEventUsingOff");
+// myModel.trigger("myCustomEventUsingOff");
+</textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">custom attributes</h4>
+        </div>
+        <div class="panel-body">
+          <div class="js-codemirror-content">
+<textarea class="js-codemirror-editor">
+var MyModel = Backbone.Model.extend({
+  doSomething: function() {
+    console.log("Hi! I'm doing something!");
+  }
+});
+
+var myModel = new MyModel();
+myModel.doSomething();
+</textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">syncing</h4>
+        </div>
+        <div class="panel-body">
+          <div class="js-codemirror-content">
+<textarea class="js-codemirror-editor">
+var MyModel = Backbone.Model.extend({
+  url: "/api/profile"
+});
+
+var myModel = new MyModel();
+console.log(myModel.toJSON());
+
+myModel.on("change", function(model) {
+  console.log("change", model.changed);
+});
+
+// when a model or collection has started a request to the server
+myModel.on("request", function(model, xhr) {
+  console.log("request", xhr);
+});
+
+// when a model or collection has been successfully synced with the server
+myModel.on("sync", function(model, response) {
+  console.log("sync", response);
+});
+
+// fetch
+myModel.fetch().then(function() {
+  console.log(myModel.toJSON());
+
+  myModel.set({
+    profession: "software developer"
+  });
+  // save
+  myModel.save().then(function() {
+    console.log(myModel.toJSON());
+  });
+});
+</textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">validation</h4>
+        </div>
+        <div class="panel-body">
+          <div class="js-codemirror-content">
+<textarea class="js-codemirror-editor">
+var MyModel = Backbone.Model.extend({
+  url: "/api/profile",
+
+  validate: function(attrs) {
+    if (attrs.age < 18) {
+      return "your age must be greater than 18";
+    }
+  }
+});
+
+var myModel = new MyModel();
+
+// invalid - when a model's validation fails on the client
+myModel.on("invalid", function(model, error) {
+  console.log("validation failed with error", error);
+});
+
+// fetch
+myModel.fetch().then(function() {
+  myModel.set({
+    age: 17
+  });
+
+  // force validation on set
+  myModel.set({
+    age: 17
+  }, {
+    validate: true
+  });
+
+  // try to save
+  myModel.save();
+
+  // isValid
+  console.log(myModel.isValid());
+
+  // validationError
+  console.log(myModel.validationError);
+});
+</textarea>
+          </div>
+        </div>
+      </div>
+
+      <h4><a href="http://backbonejs.org/#Collection" target="_blank">Collection</a></h4>
+      <blockquote>
+        <small>
+          A Collection helps you deal with a group of related models, handling the loading and saving of new models to the server and providing helper functions for performing aggregations or computations against a list of models. Aside from their own events, collections also proxy through all of the events that occur to models within them, allowing you to listen in one place for any change that might happen to any model in the collection.
+        </small>
+      </blockquote>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">collection</h4>
+        </div>
+        <div class="panel-body">
+          <div class="js-codemirror-content">
+<textarea class="js-codemirror-editor">
+
 </textarea>
           </div>
         </div>
