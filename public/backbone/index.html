@@ -202,17 +202,17 @@ var MyModel = Backbone.Model.extend({});
 
 var myModel = new MyModel();
 
-// on - change - when a model's attributes have changed
+// on
+// "change" (model, options) - when a model's attributes have changed.
 myModel.on("change", function(model) {
   console.log("the model has changed and the changes are", model.changed);
 });
 
-// on - change:[attribute] - when a specific attribute has been updated
+// "change:[attribute]" (model, value, options) - when a specific attribute has been updated.
 myModel.on("change:foo", function(model, value) {
   console.log("the attribute 'foo' has changed to", value);
 });
 
-// on - change several attributes
 myModel.on("change:bar change:baz", function(model, value) {
   console.log("the attribute 'bar' or 'baz' has changed to", value);
 });
@@ -293,8 +293,10 @@ myModel.on("sync", function(model, response) {
 });
 
 // fetch
-myModel.fetch().then(function() {
+myModel.fetch().then(function(model, response) {
+  console.log(response);
   console.log(myModel.toJSON());
+  console.log(model);
 
   myModel.set({
     profession: "software developer"
@@ -369,12 +371,235 @@ myModel.fetch().then(function() {
 
       <div class="panel panel-default">
         <div class="panel-heading">
-          <h4 class="panel-title">collection</h4>
+          <h4 class="panel-title">usage</h4>
         </div>
         <div class="panel-body">
           <div class="js-codemirror-content">
 <textarea class="js-codemirror-editor">
+var MyCollection = Backbone.Collection.extend({
+  modelId: function(attrs) {
+    return attrs.name;
+  }
+});
 
+var myCollection = new MyCollection([]);
+
+console.log(myCollection.length);
+console.log(myCollection.models);
+
+// set
+myCollection.set({name: "foo", lastName: "FOO"});
+console.log(myCollection.length);
+console.log(myCollection.models);
+
+// get
+console.log(myCollection.get("foo"));
+</textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">initialize</h4>
+        </div>
+        <div class="panel-body">
+          <div class="js-codemirror-content">
+<textarea class="js-codemirror-editor">
+var MyCollection = Backbone.Collection.extend({});
+
+var myCollection = new MyCollection([
+  {name: "foo", lastName: "FOO"},
+  {name: "bar", lastName: "BAR"},
+  {name: "baz", lastName: "BAZ"}
+]);
+
+console.log(myCollection.length);
+console.log(myCollection.models);
+</textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">built-in attributes</h4>
+        </div>
+        <div class="panel-body">
+          <div class="js-codemirror-content">
+<textarea class="js-codemirror-editor">
+var MyCollection = Backbone.Collection.extend({
+  modelId: function(attrs) {
+    return attrs.name;
+  }
+});
+
+var myCollection = new MyCollection([
+  {name: "foo", lastName: "FOO"},
+  {name: "bar", lastName: "BAR"}
+]);
+
+// toJSON
+console.log(myCollection.toJSON());
+
+// add
+myCollection.add({name: "baz", lastName: "BAZ"});
+console.log(myCollection.toJSON());
+
+// remove
+myCollection.remove([{name: "bar", lastName: "BAR"}, {name: "baz", lastName: "BAZ"}]);
+console.log(myCollection.toJSON());
+
+// reset
+myCollection.reset();
+console.log(myCollection.toJSON());
+</textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">events</h4>
+        </div>
+        <div class="panel-body">
+          <div class="js-codemirror-content">
+<textarea class="js-codemirror-editor">
+var MyCollection = Backbone.Collection.extend({
+  modelId: function(attrs) {
+    return attrs.name;
+  }
+});
+
+var myCollection = new MyCollection([
+  {name: "foo", lastName: "FOO"},
+  {name: "bar", lastName: "BAR"}
+]);
+
+// on
+// "add" (model, collection, options) - when a model is added to a collection.
+myCollection.on("add", function(model, collection) {
+  console.log("a model has been added to the collection ", model.toJSON());
+});
+
+// "remove" (model, collection, options) - when a model is removed from a collection.
+myCollection.on("remove", function(model, collection) {
+  console.log("a model has been removed from the collection ", model.toJSON());
+});
+
+// "update"" (collection, options) - single event triggered after any number of models have been added or removed from a collection.
+myCollection.on("update", function(collection) {
+  console.log("the collection has been updated ", collection.toJSON());
+});
+
+// "reset"" (collection, options) - when the collection's entire contents have been reset.
+myCollection.on("reset", function(collection) {
+  console.log("the collection has been reseted ", collection.toJSON());
+});
+
+myCollection.add({name: "baz", lastName: "BAZ"});
+
+myCollection.remove([{name: "bar", lastName: "BAR"}]);
+
+// reset
+myCollection.reset();
+</textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">built-in underscore methods</h4>
+        </div>
+        <div class="panel-body">
+          <div class="js-codemirror-content">
+<textarea class="js-codemirror-editor">
+var myCollection = new Backbone.Collection([
+  {name: "Athos", job: "Musketeer"},
+  {name: "Porthos", job: "Musketeer"},
+  {name: "Aramis", job: "Musketeer"},
+  {name: "d'Artagnan", job: "Guard"}
+]);
+
+// pluck
+console.log(myCollection.pluck("name"));
+
+// where
+console.log(myCollection.where({job: "Musketeer"}));
+
+// each
+myCollection.each(function(model) {
+  console.log(model.get("name"));
+});
+</textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">custom attributes + model</h4>
+        </div>
+        <div class="panel-body">
+          <div class="js-codemirror-content">
+<textarea class="js-codemirror-editor">
+var MyModel = Backbone.Model.extend({
+  sayHi: function() {
+    console.log("Hi! My name is " + this.get("name") + " and I am a " + this.get("job"));
+  }
+});
+
+var MyCollection = Backbone.Collection.extend({
+  model: MyModel,
+
+  sayHi: function() {
+    console.log(this.pluck("name").join(", ") + " say:");
+    this.each(function(model) {
+      model.sayHi();
+    });
+  }
+});
+
+var myCollection = new MyCollection([
+  {name: "Athos", job: "Musketeer"},
+  {name: "Porthos", job: "Musketeer"},
+  {name: "Aramis", job: "Musketeer"},
+  {name: "d'Artagnan", job: "Guard"}
+]);
+myCollection.sayHi();
+</textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">syncing</h4>
+        </div>
+        <div class="panel-body">
+          <div class="js-codemirror-content">
+<textarea class="js-codemirror-editor">
+var MyModel = Backbone.Model.extend({});
+
+var MyCollection = Backbone.Collection.extend({
+  url: "/api/events",
+
+  model: MyModel,
+
+  parse: function(response) {
+    return response.events;
+  }
+});
+
+var myCollection = new MyCollection();
+
+// fetch
+myCollection.fetch().then(function(collection, response) {
+  console.log(response);
+  console.log(myCollection.length);
+  console.log(collection.events.length);
+});
 </textarea>
           </div>
         </div>
