@@ -6,7 +6,6 @@ var _ = require("underscore"),
 
 window._ = _;
 window.Backbone = Backbone;
-window.Marionette = Marionette;
 window.Promise = Promise;
 window.request = request;
 

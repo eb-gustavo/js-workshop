@@ -7,6 +7,9 @@
     <title>JS workshop - Marionette</title>
 
     <link rel="stylesheet" href="/vendor.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/backbone.marionette/1.8.8/backbone.marionette.js"></script>
     <script type="text/javascript" src="/vendor.js"></script>
     <script type="text/javascript" src="/bundle.js"></script>
   </head>
@@ -67,16 +70,434 @@
     </script>
 
     <div class="container-fluid">
-      <h2>Marionette</h2>
+      <h2><a href="http://marionettejs.com/docs/v1.8.8/" target="_blank">Marionette</a></h2>
+
+      <h4><a href="http://marionettejs.com/docs/v1.8.8/marionette.view.html" target="_blank">ItemView</a></h4>
+      <blockquote>
+        <small>
+          An ItemView is a view that represents a single item. That item may be a <code>Backbone.Model</code> or may be a <code>Backbone.Collection</code>. Whichever it is though, it will be treated as a single item.
+        </small>
+      </blockquote>
 
       <div class="panel panel-default">
         <div class="panel-heading">
-          <h4 class="panel-title">xxx</h4>
+          <h4 class="panel-title">usage</h4>
         </div>
         <div class="panel-body">
           <div class="js-codemirror-content">
 <textarea class="js-codemirror-editor">
-console.log("xxx");
+var MyView = Marionette.ItemView.extend({
+  el: "#js-codemirror-test-result-0",
+  template: "<div>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>"
+});
+
+var myView = new MyView();
+
+myView.render();
+</textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">usage</h4>
+        </div>
+        <div class="panel-body">
+          <div class="js-codemirror-content">
+<textarea class="js-codemirror-editor">
+var MyView = Marionette.ItemView.extend({});
+
+var myView = new MyView({
+  el: "#js-codemirror-test-result-1",
+  template: "<div>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>"
+});
+
+myView.render();
+</textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">built-in attributes</h4>
+        </div>
+        <div class="panel-body">
+          <div class="js-codemirror-content">
+<textarea class="js-codemirror-editor">
+var MyView = Marionette.ItemView.extend({
+  template: "<div>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>",
+
+  initialize: function() {
+    // called when view is built
+    console.log("initialize");
+    console.log(this.options.foo);
+    console.log(this.options.bar);
+  },
+
+  onBeforeRender: function() {
+    // called before rendering the view
+    console.log("onBeforeRender");
+  },
+
+  onRender: function() {
+    // called when view is rendered
+    console.log("onRender");
+  }
+});
+
+var myView = new MyView({
+  el: "#js-codemirror-test-result-3",
+  foo: "FOO",
+  bar: "BAR"
+});
+
+myView.render();
+</textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">template</h4>
+        </div>
+        <div class="panel-body">
+          <div class="js-codemirror-content">
+<textarea class="js-codemirror-editor">
+var MyView = Marionette.ItemView.extend({
+  template: _.template("<div><%= content %></div>"),
+
+  templateHelpers: function() {
+    return {
+      content: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+    };
+  }
+});
+
+var myView = new MyView({
+  el: "#js-codemirror-test-result-2"
+});
+
+myView.render();
+</textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">ui</h4>
+        </div>
+        <div class="panel-body">
+          <div class="js-codemirror-content">
+<textarea class="js-codemirror-editor">
+var MyView = Marionette.ItemView.extend({
+  template: "<div><button class='js-my-button js-my-button-1'>Click Me</button><br><button class='js-my-button js-my-button-2'>Click Me, I'm the button 2</button></div>",
+
+  ui: {
+    myButton: ".js-my-button-1",
+    myButton2: ".js-my-button-2",
+    myButtons: ".js-my-button"
+  },
+
+  events: {
+    "click @ui.myButton": "handleButtonClick",
+    "click @ui.myButton2": "handleButtonClick"
+  },
+
+  triggers: {
+    "click @ui.myButtons": "button:clicked"
+  },
+
+  handleButtonClick: function(e) {
+    e.preventDefault();
+    console.log("The button '" + e.currentTarget.textContent + "' was clicked!");
+
+    this.ui.myButtons.prop("disabled", true);
+    this.ui.myButtons.css("color", "red")
+    setTimeout(function() {
+      this.ui.myButtons.prop("disabled", false);
+      this.ui.myButtons.css("color", "black")
+    }.bind(this), 1500);
+  }
+});
+
+var myView = new MyView({
+  el: "#js-codemirror-test-result-4"
+});
+
+myView.on("button:clicked", function(args) {
+  console.log("button:clicked event was triggered");
+  // args.view; // => the view instance that triggered the event
+  // args.model; // => the view.model, if one was set on the view
+  // args.collection; // => the view.collection, if one was set on the view
+});
+
+myView.render();
+</textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">model</h4>
+        </div>
+        <div class="panel-body">
+          <div class="js-codemirror-content">
+<textarea class="js-codemirror-editor">
+var myModel = new Backbone.Model({
+  counter: 0
+});
+
+var MyView = Marionette.ItemView.extend({
+  template: _.template("<div><button class='js-my-button-1'>Click Me</button><br>Button was cliked <%= counter %> times</div>"),
+
+  ui: {
+    myButton: ".js-my-button-1"
+  },
+
+  events: {
+    "click @ui.myButton": "handleButtonClick"
+  },
+
+  modelEvents: {
+    "change:counter": "render"
+  },
+
+  handleButtonClick: function(e) {
+    e.preventDefault();
+    this.model.set("counter", this.model.get("counter") + 1);
+  },
+
+  onRender: function() {
+    console.log("onRender");
+  }
+});
+
+var myView = new MyView({
+  el: "#js-codemirror-test-result-5",
+  model: myModel
+});
+
+myView.render();
+</textarea>
+          </div>
+        </div>
+      </div>
+
+      <h4><a href="http://marionettejs.com/docs/v1.8.8/marionette.layout.html" target="_blank">Layout</a></h4>
+      <blockquote>
+        <small>
+          A <code>Layout</code> is a hybrid of an <code>ItemView</code> and a collection of <code>Region</code> objects. They are ideal for rendering application layouts with multiple sub-regions managed by specified region managers.
+        </small>
+      </blockquote>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">usage</h4>
+        </div>
+        <div class="panel-body">
+          <div class="js-codemirror-content">
+<textarea class="js-codemirror-editor">
+var MyView1 = Marionette.ItemView.extend({
+  template: "<div>Hi, i'm the view 1</div>"
+});
+
+var MyView2 = Marionette.ItemView.extend({
+  template: "<div>Hi, i'm the view 2</div>"
+});
+
+var MyLayout = Marionette.LayoutView.extend({
+  template: "<div><div class='js-section-1'></div><div class='js-section-2'></div></div>",
+
+  regions: {
+    myView1Region: ".js-section-1",
+    myView2Region: ".js-section-2"
+  },
+
+  onRender: function() {
+    var myView1 = new MyView1({});
+    var myView2 = new MyView2({});
+
+    this.myView1Region.show(myView1);
+    this.myView2Region.show(myView2);
+  }
+});
+
+var myLayout = new MyLayout({
+  el: "#js-codemirror-test-result-6"
+});
+
+myLayout.render();
+</textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">model</h4>
+        </div>
+        <div class="panel-body">
+          <div class="js-codemirror-content">
+<textarea class="js-codemirror-editor">
+var myModel = new Backbone.Model({
+  counter: 0
+});
+
+var MyView1 = Marionette.ItemView.extend({
+  template: "<div><button class='js-my-button-1'>Click Me</button></div>",
+
+  ui: {
+    myButton: ".js-my-button-1"
+  },
+
+  events: {
+    "click @ui.myButton": "handleButtonClick"
+  },
+
+  handleButtonClick: function(e) {
+    e.preventDefault();
+    this.model.set("counter", this.model.get("counter") + 1);
+  }
+});
+
+var MyView2 = Marionette.ItemView.extend({
+  template: _.template("<div>Button was cliked <%= counter %> times</div>"),
+
+  modelEvents: {
+    "change:counter": "render"
+  }
+});
+
+var MyLayout = Marionette.LayoutView.extend({
+  template: "<div><div class='js-section-1'></div><div class='js-section-2'></div></div>",
+
+  regions: {
+    myView1Region: ".js-section-1",
+    myView2Region: ".js-section-2"
+  },
+
+  onRender: function() {
+    var myView1 = new MyView1({
+      model: this.model
+    });
+    var myView2 = new MyView2({
+      model: this.model
+    });
+
+    this.myView1Region.show(myView1);
+    this.myView2Region.show(myView2);
+  }
+});
+
+var myLayout = new MyLayout({
+  el: "#js-codemirror-test-result-7",
+  model: myModel
+});
+
+myLayout.render();
+</textarea>
+          </div>
+        </div>
+      </div>
+
+      <h4><a href="http://marionettejs.com/docs/v1.8.8/marionette.compositeview.html" target="_blank">CompositeView</a></h4>
+      <blockquote>
+        <small>
+          A <code>CompositeView</code> extends from <code>CollectionView</code> to be used as a composite view for scenarios where it should represent both a branch and leaf in a tree structure, or for scenarios where a collection needs to be rendered within a wrapper template.
+        </small>
+      </blockquote>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">usage</h4>
+        </div>
+        <div class="panel-body">
+          <div class="js-codemirror-content">
+<textarea class="js-codemirror-editor">
+var TodoModel = Backbone.Model.extend({
+  defaults: {
+    "todoName": "",
+    "completed": false
+  }
+});
+
+var TodoCollection = Backbone.Collection.extend({
+  model: TodoModel,
+
+  modelId: function(attrs) {
+    return attrs.todoName;
+  }
+});
+
+var AddTodoView = Marionette.ItemView.extend({
+  template: "<div><input type='text' class='js-todo-name'/><br><button class='js-add-todo'>Add</button></div>",
+
+  ui: {
+    addTodo: ".js-add-todo",
+    todoName: ".js-todo-name"
+  },
+
+  events: {
+    "click @ui.addTodo": "_handleAddTodo"
+  },
+
+  _handleAddTodo: function(e) {
+    e.preventDefault();
+
+    var todoName = this.ui.todoName.val();
+    if (todoName) {
+      this.options.collection.add(new TodoModel({todoName: todoName}));
+    }
+  }
+});
+
+var TodoView = Marionette.ItemView.extend({
+  template: _.template("<span><%= todoName %></span>"),
+
+  tagName: 'li'
+});
+
+var TodoListView = Marionette.CompositeView.extend({
+  template: "<ul></ul>",
+
+  itemView: TodoView,
+
+  itemViewContainer: 'ul'
+});
+
+var TodoListLayout = Marionette.LayoutView.extend({
+  template: "<div><div class='js-add-todo-region'></div><div class='js-todo-list-region'></div></div>",
+
+  regions: {
+    addTodoRegion: ".js-add-todo-region",
+    todoListRegion: ".js-todo-list-region"
+  },
+
+  onRender: function() {
+    var addTodoView = new AddTodoView({
+      collection: this.collection
+    });
+    var todoListView = new TodoListView({
+      collection: this.collection
+    });
+
+    this.addTodoRegion.show(addTodoView);
+    this.todoListRegion.show(todoListView);
+  }
+});
+
+var todoCollection = new TodoCollection([]);
+var layout = new TodoListLayout({
+  el: "#js-codemirror-test-result-8",
+  collection: todoCollection
+});
+
+layout.render();
 </textarea>
           </div>
         </div>

@@ -2,7 +2,8 @@
   "profile": {
     "name": "Foo",
     "last_name": "Bar",
-    "age": 99
+    "age": 99,
+    "profession": "software developer"
   },
   "events": [
     {
