@@ -1,11 +1,8 @@
 var _ = require("underscore"),
-  Backbone = require("backbone"),
-  Marionette = require("backbone.marionette"),
   Promise = require("promise"),
   request = require("superagent");
 
 window._ = _;
-window.Backbone = Backbone;
 window.Promise = Promise;
 window.request = request;
 

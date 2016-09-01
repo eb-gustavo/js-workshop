@@ -655,7 +655,7 @@ getEventsWithCallback(function(error, response) {
     console.error(error);
   } else {
     console.log("Success!");
-    console.log(response[0].name);
+    console.log(response.events[0].name);
   }
 });
 
@@ -674,7 +674,7 @@ function getEvents() {
 
 getEvents().then(function(response) {
   console.log("Success!");
-  console.log(response[0].name);
+  console.log(response.events[0].name);
 }, function(error) {
   console.error("Failed!");
   console.error(error);
