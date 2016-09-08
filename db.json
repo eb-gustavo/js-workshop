@@ -3,7 +3,8 @@
     "name": "Foo",
     "last_name": "Bar",
     "age": 99,
-    "profession": "software developer"
+    "profession": "software developer",
+    "id": null
   },
   "events": [
     {
@@ -2659,6 +2660,62 @@
         "edge_color": "#876437",
         "edge_color_set": true
       }
+    }
+  ],
+  "todos": [
+    {
+      "id": 1,
+      "created": "2016-09-03T11:16:00.000Z",
+      "name": "my first todo",
+      "completed": false
+    },
+    {
+      "id": 2,
+      "created": "2016-09-03T11:17:00.000Z",
+      "name": "my second todo",
+      "completed": false
+    },
+    {
+      "id": 3,
+      "created": "2016-09-03T11:18:00.000Z",
+      "name": "my third todo",
+      "completed": false
+    },
+    {
+      "created": "2016-09-08T02:55:01.867Z",
+      "name": "asd",
+      "completed": false,
+      "id": 4
+    },
+    {
+      "created": "2016-09-08T02:55:01.867Z",
+      "name": "qwe",
+      "completed": false,
+      "id": 5
+    },
+    {
+      "created": "2016-09-08T02:55:01.867Z",
+      "name": "asd",
+      "completed": false,
+      "id": 6
+    },
+    {
+      "created": "2016-09-08T02:56:37.567Z",
+      "name": "qwe",
+      "completed": false,
+      "id": 7
+    },
+    {
+      "created": "2016-09-08T02:56:37.567Z",
+      "name": "asd",
+      "completed": false,
+      "id": 8
+    },
+    {
+      "created": "2016-09-08T02:56:37.567Z",
+      "name": 12345678,
+      "completed": false,
+      "id": 9
     }
   ]
 }
